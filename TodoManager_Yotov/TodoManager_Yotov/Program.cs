@@ -2,9 +2,29 @@
 {
     internal class Program
     {
-        static List<Task> tasks = new List<Task>();
+        static List<Tasks> tasks = new List<Tasks>();
+        private static int nextId = 1;
         static void Main(string[] args)
         {
+            //{
+
+
+            //    Console.WriteLine("Начало на програмата");
+
+            //    try
+            //    {
+            //        Console.Write("Въведете число: ");
+            //        int number = int.Parse(Console.ReadLine());
+
+            //        Console.WriteLine($"Въведохте: {number}");
+            //    }
+            //    catch (FormatException)
+            //    {
+            //        Console.WriteLine("Грешка! Трябва да въведете число.");
+            //    }
+
+            //    Console.WriteLine("Край на програмата");
+
             bool running = true;
 
             while (running)
@@ -68,11 +88,22 @@
             string description = Console.ReadLine();
 
             Console.Write("Краен срок (напр. 2026-06-10): ");
-            string dueDate = Console.ReadLine();
+            DateTime dueDate = DateTime.Parse(Console.ReadLine());
+            try
+            {
+                tasks.Add(new Tasks(nextId, title, description, dueDate));
+                nextId++;
+                Console.WriteLine("\nЗадачата е добавена успешно! Натисни бутон за връзка с менюто...");
 
-            tasks.Add(new Task(title, description, dueDate));
-
-            Console.WriteLine("\nЗадачата е добавена успешно! Натисни бутон за връзка с менюто...");
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch(ArgumentNullException ex) 
+            {
+                Console.WriteLine(ex.Message);
+            }
             Console.ReadKey();
         }
 
@@ -94,7 +125,7 @@
                     var task = tasks[i];
                     string status = task.IsCompleted ? "[Изпълнена]" : "[Неизпълнена]";
                     Console.WriteLine($"{i + 1}. {task.Title} {status}");
-                    Console.WriteLine($"   Бел: {task.Description}"); 
+                    Console.WriteLine($"   Бел: {task.Description}");
                     Console.WriteLine($"   Срок: {task.DueDate}");
                     Console.WriteLine(new string('-', 30));
                 }
@@ -164,7 +195,7 @@
             Console.ReadKey();
         }
 
-      //ъсфдстъвхфдгсуивхйrgdf
+        //ъсфдстъвхфдгсуивхйrgdf
         static void ViewTasksListOnly()
         {
             for (int i = 0; i < tasks.Count; i++)
@@ -172,6 +203,8 @@
                 string status = tasks[i].IsCompleted ? "✓" : "✗";
                 Console.WriteLine($"{i + 1}. [{status}] {tasks[i].Title}");
             }
+
         }
+
     }
 }
